@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from home.serializer import *
 from rest_framework.decorators import api_view,APIView
+from rest_framework.authtoken.models import Token
 from home.models import *
 from rest_framework.response import Response
 
@@ -8,11 +9,14 @@ from rest_framework.response import Response
 
 class create_user(APIView):
     def post(self,request):
-        serializer=blogserializer(data=request.data)
+        serializer=Userserializer(data=request.data)
         if not serializer.is_valid():
             return Response({'status':200,'message':serializer.errors})
         serializer.save()
-        return Response({'message':'User is created successfully'})
+        user=User.objects.get(username=serializer.data['username'])
+        token , _ = Token.objects.get_or_create(user=user)
+        return Response({'message':'User is created successfully','token':str(token)})
+    
     
 
 # for list of Blog's

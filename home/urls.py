@@ -20,6 +20,7 @@ from home.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('create_user/',create_user.as_view()),
     path('get_blog/',getblog.as_view()),
     path('delete_blog/<id>/',delete_blog.as_view()),
     path('create_blog/',create_blog.as_view()),
