@@ -4,7 +4,8 @@ from rest_framework.decorators import api_view,APIView
 from rest_framework.authtoken.models import Token
 from home.models import *
 from rest_framework.response import Response
-
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 # creating a user
 
 class create_user(APIView):
@@ -21,6 +22,8 @@ class create_user(APIView):
 
 # for list of Blog's
 class getblog(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
     def get(self,request):
         obj_1=blog.objects.all()
         serializer=blogserializer(obj_1,many=True)
