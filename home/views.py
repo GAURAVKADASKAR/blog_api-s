@@ -31,6 +31,8 @@ class getblog(APIView):
     
 # for deleting the Blog's
 class delete_blog(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
     def delete(self,request,id):
         obj_2=blog.objects.filter(id=id)
         if obj_2.exists():
@@ -40,6 +42,8 @@ class delete_blog(APIView):
         return Response({'Blog does not exists'})
 # for creating a Blog
 class create_blog(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
     def POST(self,request):
         serializer=blogserializer(data=request.data)
         if not serializer.is_valid():
@@ -49,6 +53,8 @@ class create_blog(APIView):
 
 # for updating a Blog
 class update_blog(APIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
     def put(self,request,id):
         obj_3=blog.objects.get(id=id)
         serializer=blogserializer(obj_3,data=request.data)
